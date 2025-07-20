@@ -1,7 +1,7 @@
 extends Node2D
 
-@export var speed : float = 10
-@onready var parent : Node2D = get_parent()
+@export var speed : float = 200
+@onready var parent : CharacterBody2D = get_parent()
 
 @export_group("Rotation properties")
 @export var rotation_speed: float = 0.05
@@ -15,12 +15,6 @@ var time : float = 0.0
 var released_time: float = 0.0
 var released_dir: int = 0
 var released: bool = false
-
-func _ready() -> void:
-	start = true
-	if start:
-		var screen_size = get_viewport().get_visible_rect().size
-		parent.global_position = screen_size / 2
 
 func _process(delta: float) -> void:
 	can_rotate = start
@@ -66,5 +60,7 @@ func get_curve_max_x(curve: Curve) -> float:
 func _physics_process(delta: float) -> void:
 	if start:
 		return
-	
-	pass
+
+	var direction: Vector2 = Vector2.RIGHT.rotated(parent.rotation)
+	parent.velocity = direction * speed
+	parent.move_and_slide()
