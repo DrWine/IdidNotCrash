@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0di5fsr5qcyk"]
+
+[ext_resource type="Script" uid="uid://bth0fsbfm4pkl" path="res://Scripts/PlayerScript.gd" id="1_yw17q"]
+[ext_resource type="Script" uid="uid://ds7015vuugjdg" path="res://Scripts/Components/MovementComponent.gd" id="2_yw17q"]
+[ext_resource type="Script" uid="uid://dwipwckm6jnob" path="res://Scripts/Components/PlayerUiComponent.gd" id="3_o1rty"]
+[ext_resource type="Texture2D" uid="uid://gcoqyihf7t67" path="res://icon.svg" id="4_t45n6"]
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement_cmp")]
+script = ExtResource("1_yw17q")
+movement_cmp = NodePath("MovementComponent")
+
+[node name="MovementComponent" type="Node2D" parent="."]
+script = ExtResource("2_yw17q")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-64, -64, 0, -128, 64, -64, 64, 64, -64, 64)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(0.888604, 0.888604)
+polygon = PackedVector2Array(-64, -64, 0, -128, 64, -64, 64, 64, -64, 64)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("3_o1rty")
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Wheel" type="TextureRect" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_top = -104.0
+offset_right = 104.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("4_t45n6")
+
+[connection signal="gui_input" from="CanvasLayer/Control/Wheel" to="CanvasLayer" method="_on_wheel_gui_input"]
