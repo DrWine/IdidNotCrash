@@ -1,77 +1,71 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbu8o4pnr4t0"]
+[gd_scene load_steps=5 format=3 uid="uid://cbu8o4pnr4t0"]
 
 [ext_resource type="Script" uid="uid://ofq4lf7o1yh0" path="res://Scripts/platform.gd" id="1_ygx5w"]
+[ext_resource type="Texture2D" uid="uid://ce2j87g4tfj5h" path="res://Resources/Art/Platform1.png" id="2_08hf0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_apfcn"]
-size = Vector2(91.5, 16)
+size = Vector2(31.0938, 11.3333)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ygx5w"]
-size = Vector2(10, 13)
+size = Vector2(10, 8.5)
 
 [node name="Platform" type="StaticBody2D"]
+scale = Vector2(6, 6)
+collision_layer = 3
 script = ExtResource("1_ygx5w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_apfcn")
 
-[node name="Help" type="Node2D" parent="."]
-visible = false
-
-[node name="Gravity" type="Polygon2D" parent="Help"]
-position = Vector2(4, -8)
-rotation = 3.14159
-color = Color(0.986672, 0.924795, 7.70092e-07, 1)
-polygon = PackedVector2Array(0, -8, 0, -40, 8, -40, 8, -8)
-
-[node name="A" type="Polygon2D" parent="Help"]
-color = Color(1, 0.564706, 1, 1)
-polygon = PackedVector2Array(-40, 24, -32, 8, -24, 24, -32, 24)
-
-[node name="D" type="Polygon2D" parent="Help"]
-color = Color(0.478431, 1, 1, 1)
-polygon = PackedVector2Array(24, 24, 24, 8, 40, 16)
-
 [node name="Markers" type="Node2D" parent="."]
 
 [node name="Top" type="Marker2D" parent="Markers"]
-position = Vector2(0, -8)
+position = Vector2(0, -5.66667)
 
 [node name="Bottom" type="Marker2D" parent="Markers"]
-position = Vector2(0, 8)
+position = Vector2(0, 5.83333)
 
 [node name="Left" type="Marker2D" parent="Markers"]
-position = Vector2(-43, 0)
+position = Vector2(-15.6667, 0)
 
 [node name="Right" type="Marker2D" parent="Markers"]
-position = Vector2(46, 0)
+position = Vector2(15.8333, 0.166667)
 
 [node name="Sides" type="Area2D" parent="."]
+position = Vector2(0, 1.83333)
 collision_layer = 0
 collision_mask = 4
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sides"]
-position = Vector2(-43, 0)
+position = Vector2(-16, 0)
 shape = SubResource("RectangleShape2D_ygx5w")
 debug_color = Color(0.999806, 0, 0.1005, 0.42)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Sides"]
-position = Vector2(46, 0)
+position = Vector2(18, 0)
 shape = SubResource("RectangleShape2D_ygx5w")
 debug_color = Color(0.999806, 0, 0.1005, 0.42)
 
 [node name="BottomArea" type="Area2D" parent="."]
-position = Vector2(0, 9)
+position = Vector2(0, 5.83333)
 collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BottomArea"]
 shape = SubResource("RectangleShape2D_apfcn")
+disabled = true
 
 [node name="TopArea" type="Area2D" parent="."]
-position = Vector2(0, -8)
+position = Vector2(0, -5.66667)
 collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TopArea"]
+position = Vector2(0, 3.12924e-07)
 shape = SubResource("RectangleShape2D_apfcn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-0.166667, 2.83333)
+texture = ExtResource("2_08hf0")

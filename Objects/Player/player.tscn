@@ -1,16 +1,76 @@
-[gd_scene load_steps=8 format=3 uid="uid://dr1d0dtquj85b"]
+[gd_scene load_steps=12 format=3 uid="uid://dr1d0dtquj85b"]
 
 [ext_resource type="Script" uid="uid://csuftpqlgfkc2" path="res://Scripts/Components/movement_comp.gd" id="1_156m4"]
 [ext_resource type="Script" uid="uid://b1oth56ultjj3" path="res://Scripts/player.gd" id="1_o1rty"]
+[ext_resource type="Texture2D" uid="uid://dtk7iie72ulmy" path="res://Resources/Art/Selection_3.png" id="2_u7612"]
 [ext_resource type="Script" uid="uid://dh6n4bc7sfi40" path="res://Scripts/Components/jump_buffer_comp.gd" id="2_yw17q"]
+[ext_resource type="Script" uid="uid://b6nnf4vyy38g2" path="res://Scripts/Components/player_sprite_comp.gd" id="3_bpp7x"]
 [ext_resource type="Script" uid="uid://dsfmkffdw8i38" path="res://Scripts/Components/launch_ability_comp.gd" id="3_l2ya6"]
 [ext_resource type="Script" uid="uid://c46as32xrfab4" path="res://Scripts/Components/jetpack_ability_comp.gd" id="5_t45n6"]
 
+[sub_resource type="Animation" id="Animation_bpp7x"]
+resource_name = "Idle"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-0.244346, 0.0, 0.244346]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, -2, 1),
+"update": 0,
+"values": [Vector2(0.999799, 0.704952), Vector2(1, 1), Vector2(0.999799, 0.704952)]
+}
+
+[sub_resource type="Animation" id="Animation_jllbl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jllbl"]
+_data = {
+&"Idle": SubResource("Animation_bpp7x"),
+&"RESET": SubResource("Animation_jllbl")
+}
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tbugw"]
 size = Vector2(64, 64)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_o1rty"]
-radius = 25.2982
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 5
@@ -19,15 +79,29 @@ floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("1_o1rty")
 
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="PlayerSpriteComp" type="Sprite2D" parent="Node2D"]
+texture_filter = 1
+texture_repeat = 1
+scale = Vector2(6, 6)
+texture = ExtResource("2_u7612")
+flip_h = true
+script = ExtResource("3_bpp7x")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/PlayerSpriteComp"]
+libraries = {
+&"": SubResource("AnimationLibrary_jllbl")
+}
+
 [node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
 scale = Vector2(0.5, 0.5)
 polygon = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_tbugw")
-
-[node name="AlternativeColl" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_o1rty")
 
 [node name="MovementComp" type="Node" parent="." node_paths=PackedStringArray("parent")]
 script = ExtResource("1_156m4")
@@ -40,6 +114,7 @@ parent = NodePath("..")
 [node name="LaunchAbilityComp" type="Node2D" parent="." node_paths=PackedStringArray("parent")]
 script = ExtResource("3_l2ya6")
 parent = NodePath("..")
+used = false
 
 [node name="JetpackAbilityComp" type="Node2D" parent="." node_paths=PackedStringArray("parent")]
 script = ExtResource("5_t45n6")

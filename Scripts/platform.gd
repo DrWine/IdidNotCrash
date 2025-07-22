@@ -41,6 +41,7 @@ func _ready() -> void:
 		if pos.x > markers["right"].global_position.x:
 			markers["right"] = marker
 
+
 	# Setup movement directions
 	if !WandS:
 		var slope_dir = (markers["right"].global_position - markers["left"].global_position).normalized()

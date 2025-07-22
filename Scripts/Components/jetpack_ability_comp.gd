@@ -10,8 +10,9 @@ extends Node2D
 var aiming := false
 var fly_velocity := Vector2.ZERO
 var flight_landed_cooldown := false
-
+@export var used : bool = true
 func _process(delta: float) -> void:
+	if used : return
 	if Input.is_action_pressed("Space") and parent.is_flying:
 		aiming = true
 		# TODO: draw aim line, slow time, etc.
@@ -20,13 +21,14 @@ func _process(delta: float) -> void:
 		aiming = false
 		# Re-aim mid-air
 		launch_ability_comp.force_stop()
-		coll.disabled = true
+		coll.set_scale(Vector2(0.7,0.7))
 		var mouse_position = get_global_mouse_position()
 		var player_position = parent.global_position
 		var direction = (mouse_position - player_position).normalized()
 		fly_velocity = direction * launch_speed
 
 func _physics_process(delta: float) -> void:
+	if used: return
 	if parent.is_flying and not flight_landed_cooldown:
 		parent.velocity = Vector2.ZERO
 		var collision = parent.move_and_collide(fly_velocity * delta)
@@ -37,8 +39,8 @@ func _physics_process(delta: float) -> void:
 
 func set_flying_false() -> void:
 	parent.velocity = Vector2.ZERO
-	coll.disabled = false
-	var timer = get_tree().create_timer(0.025)
+	coll.set_scale(Vector2(1,1))
+	var timer = get_tree().create_timer(0.005)
 	await timer.timeout
 	parent.is_flying = false
 	flight_landed_cooldown = false

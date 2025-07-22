@@ -4,37 +4,22 @@
 [ext_resource type="PackedScene" uid="uid://cbu8o4pnr4t0" path="res://Objects/platform.tscn" id="2_xyf27"]
 
 [node name="Test" type="Node2D"]
+scale = Vector2(1.4, 1.4)
 
 [node name="Player" parent="." instance=ExtResource("1_ifcvu")]
-position = Vector2(281.22, 638)
+position = Vector2(178.72, 390)
 
 [node name="Platform" parent="." instance=ExtResource("2_xyf27")]
-position = Vector2(290, 702)
-scale = Vector2(4.26777, 4.26777)
+position = Vector2(176.5, 464)
 
 [node name="Platform2" parent="." instance=ExtResource("2_xyf27")]
-position = Vector2(427, 173)
-rotation = -0.67207
-scale = Vector2(4.26777, 4.26777)
+position = Vector2(427.5, 102)
+rotation = -2.87158
 
 [node name="Platform3" parent="." instance=ExtResource("2_xyf27")]
-position = Vector2(1163, 138)
-rotation = 1.57079
-scale = Vector2(4.26777, 4.26777)
-WandS = true
+position = Vector2(525, 527.143)
+rotation = -0.548797
 
 [node name="Platform4" parent="." instance=ExtResource("2_xyf27")]
-position = Vector2(857, 625)
-rotation = 1.57079
-scale = Vector2(4.26777, 4.26777)
-WandS = true
-
-[node name="Platform5" parent="." instance=ExtResource("2_xyf27")]
-position = Vector2(1105, 943)
-scale = Vector2(4.26777, 4.26777)
-
-[node name="Platform6" parent="." instance=ExtResource("2_xyf27")]
-position = Vector2(1531, 649)
-rotation = -1.57079
-scale = Vector2(4.26777, 4.26777)
-WandS = true
+position = Vector2(868.572, 184.286)
+rotation = -2.80913

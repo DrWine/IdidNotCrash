@@ -6,7 +6,7 @@ extends Node
 
 @export var parent : CharacterBody2D
 @onready var jump_buffer_comp: Node = $"../JumpBufferComp"
-
+var gravity_vec = Vector2.ZERO
 func _ready() -> void:
 	jump_buffer_comp.connect("just_landed", player_just_landed)
 
@@ -30,6 +30,6 @@ func _physics_process(delta):
 
 			var dir = collider.get_platform_direction(Vector2(axis_x, axis_y))
 			var limit = collider.get_limits(parent.global_position, Vector2(axis_x, axis_y))
-			var gravity_vec = collider.calc_gravity_vector()
+			gravity_vec = collider.calc_gravity_vector()
 
 			parent.velocity = (dir * speed * limit) + (gravity_vec * gravity * limit)
