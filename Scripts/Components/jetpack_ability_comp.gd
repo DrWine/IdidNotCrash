@@ -5,19 +5,21 @@ extends Node2D
 
 @onready var jump_buffer_comp: Node = $"../JumpBufferComp"
 @onready var coll: CollisionShape2D = $"../CollisionShape2D"
+@onready var launch_ability_comp: Node2D = $"../LaunchAbilityComp"
 
 var aiming := false
 var fly_velocity := Vector2.ZERO
 var flight_landed_cooldown := false
 
 func _process(delta: float) -> void:
-	if Input.is_action_pressed("Space") and not parent.is_flying:
+	if Input.is_action_pressed("Space") and parent.is_flying:
 		aiming = true
 		# TODO: draw aim line, slow time, etc.
 
-	if Input.is_action_just_released("Space") and aiming and not parent.is_flying:
+	if Input.is_action_just_released("Space") and aiming and parent.is_flying:
 		aiming = false
-		parent.is_flying = true
+		# Re-aim mid-air
+		launch_ability_comp.force_stop()
 		coll.disabled = true
 		var mouse_position = get_global_mouse_position()
 		var player_position = parent.global_position
@@ -26,6 +28,7 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	if parent.is_flying and not flight_landed_cooldown:
+		parent.velocity = Vector2.ZERO
 		var collision = parent.move_and_collide(fly_velocity * delta)
 		if collision:
 			flight_landed_cooldown = true
@@ -38,12 +41,4 @@ func set_flying_false() -> void:
 	var timer = get_tree().create_timer(0.025)
 	await timer.timeout
 	parent.is_flying = false
-	flight_landed_cooldown = false
-
-func force_stop() -> void:
-	# Immediately cancel flying, mid-air or not
-	parent.velocity = Vector2.ZERO
-	fly_velocity = Vector2.ZERO
-	parent.is_flying = false
-	coll.disabled = false
 	flight_landed_cooldown = false

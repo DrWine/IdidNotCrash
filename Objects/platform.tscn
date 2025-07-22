@@ -15,6 +15,7 @@ script = ExtResource("1_ygx5w")
 shape = SubResource("RectangleShape2D_apfcn")
 
 [node name="Help" type="Node2D" parent="."]
+visible = false
 
 [node name="Gravity" type="Polygon2D" parent="Help"]
 position = Vector2(4, -8)
