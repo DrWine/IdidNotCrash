@@ -5,27 +5,38 @@ extends Node2D
 
 @onready var jump_buffer_comp: Node = $"../JumpBufferComp"
 
+@onready var coll: CollisionShape2D = $"../CollisionShape2D"
+
+
 var aiming := false
-var is_flying := false
 var fly_velocity := Vector2.ZERO
+var flight_landed_cooldown := false
 
 func _process(delta: float) -> void:
-	printt(aiming, jump_buffer_comp.is_touching_any_surface())
-	if Input.is_action_pressed("Space") and jump_buffer_comp.is_touching_any_surface():
+	if Input.is_action_pressed("Space") and not parent.is_flying:
 		aiming = true
 		# TODO: draw aim line, slow time, etc.
 
-	if Input.is_action_just_released("Space") and aiming:
+	if Input.is_action_just_released("Space") and aiming and not parent.is_flying:
 		aiming = false
-		is_flying = true
+		parent.is_flying = true
 		var mouse_position = get_global_mouse_position()
 		var player_position = parent.global_position
 		var direction = (mouse_position - player_position).normalized()
 		fly_velocity = direction * launch_speed
 
 func _physics_process(delta: float) -> void:
-	if is_flying:
+	coll.disabled = parent.is_flying
+	if parent.is_flying and not flight_landed_cooldown:
 		var collision = parent.move_and_collide(fly_velocity * delta)
 		if collision:
-			is_flying = false
+			flight_landed_cooldown = true
 			fly_velocity = Vector2.ZERO
+			set_flying_false()
+
+func set_flying_false() -> void:
+	parent.velocity = Vector2.ZERO
+	var timer = get_tree().create_timer(0.1)
+	await timer.timeout
+	parent.is_flying = false
+	flight_landed_cooldown = false

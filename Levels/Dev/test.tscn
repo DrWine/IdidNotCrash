@@ -1,26 +1,39 @@
 [gd_scene load_steps=3 format=3 uid="uid://b0ddf5aiaaiyf"]
 
 [ext_resource type="PackedScene" uid="uid://dr1d0dtquj85b" path="res://Objects/Player/player.tscn" id="1_ifcvu"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ifcvu"]
-size = Vector2(1183, 85)
+[ext_resource type="PackedScene" uid="uid://cbu8o4pnr4t0" path="res://Objects/platform.tscn" id="2_xyf27"]
 
 [node name="Test" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_ifcvu")]
-position = Vector2(276, 265)
+position = Vector2(281.22, 638)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(1055, 515)
-rotation = 1.45605
+[node name="Platform" parent="." instance=ExtResource("2_xyf27")]
+position = Vector2(290, 702)
+scale = Vector2(4.26777, 4.26777)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(472.5, 0)
-shape = SubResource("RectangleShape2D_ifcvu")
+[node name="Platform2" parent="." instance=ExtResource("2_xyf27")]
+position = Vector2(685, 173)
+scale = Vector2(4.26777, 4.26777)
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="."]
-position = Vector2(296, 191)
+[node name="Platform3" parent="." instance=ExtResource("2_xyf27")]
+position = Vector2(1163, 138)
+rotation = 1.57079
+scale = Vector2(4.26777, 4.26777)
+WandS = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2(472.5, 0)
-shape = SubResource("RectangleShape2D_ifcvu")
+[node name="Platform4" parent="." instance=ExtResource("2_xyf27")]
+position = Vector2(857, 625)
+rotation = 1.57079
+scale = Vector2(4.26777, 4.26777)
+WandS = true
+
+[node name="Platform5" parent="." instance=ExtResource("2_xyf27")]
+position = Vector2(1105, 943)
+scale = Vector2(4.26777, 4.26777)
+
+[node name="Platform6" parent="." instance=ExtResource("2_xyf27")]
+position = Vector2(1531, 649)
+rotation = -1.57079
+scale = Vector2(4.26777, 4.26777)
+WandS = true

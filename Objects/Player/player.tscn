@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dr1d0dtquj85b"]
+[gd_scene load_steps=7 format=3 uid="uid://dr1d0dtquj85b"]
 
 [ext_resource type="Script" uid="uid://csuftpqlgfkc2" path="res://Scripts/Components/movement_comp.gd" id="1_156m4"]
 [ext_resource type="Script" uid="uid://b1oth56ultjj3" path="res://Scripts/player.gd" id="1_o1rty"]
@@ -8,7 +8,12 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tbugw"]
 size = Vector2(64, 64)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_o1rty"]
+radius = 25.2982
+
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 5
+up_direction = Vector2(1, 0)
 floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("1_o1rty")
@@ -19,6 +24,9 @@ polygon = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_tbugw")
+
+[node name="AlternativeColl" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_o1rty")
 
 [node name="MovementComp" type="Node" parent="." node_paths=PackedStringArray("parent")]
 script = ExtResource("1_156m4")
