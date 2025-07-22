@@ -7,6 +7,7 @@ extends Node2D
 @onready var coll: CollisionShape2D = $"../CollisionShape2D"
 
 @export var used : bool = true
+var col_scale_fly : Vector2 = Vector2(0.1,0.1)
 
 var aiming := false
 var fly_velocity := Vector2.ZERO
@@ -19,9 +20,9 @@ func _process(delta: float) -> void:
 		# TODO: draw aim line, slow time, etc.
 
 	if Input.is_action_just_released("Space") and aiming and not parent.is_flying:
+		coll.set_scale(col_scale_fly)
 		aiming = false
 		parent.is_flying = true
-		coll.set_scale(Vector2(0.7,0.7))
 		var mouse_position = get_global_mouse_position()
 		var player_position = parent.global_position
 		var direction = (mouse_position - player_position).normalized()

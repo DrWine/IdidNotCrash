@@ -7,10 +7,17 @@ class_name Platform
 @onready var bottom_area: Area2D = $BottomArea
 @onready var top_area: Area2D = $TopArea
 
+@export var left_corner : float = -15.667
+@export var right_corner : float = 15.833
+
 var markers: Dictionary = {}
 var dirs: Dictionary[Vector2, Vector2] = {}
 
 func _ready() -> void:
+	$Markers/Left.position.x = left_corner
+	$Markers/Right.position.x = right_corner
+	
+	
 	var marker_array: Array = []
 
 	# Collect all Marker2D nodes under $Markers
@@ -42,6 +49,7 @@ func _ready() -> void:
 			markers["right"] = marker
 
 
+	
 	# Setup movement directions
 	if !WandS:
 		var slope_dir = (markers["right"].global_position - markers["left"].global_position).normalized()
@@ -50,7 +58,6 @@ func _ready() -> void:
 	else:
 		dirs[Vector2(0, -1)] = (markers["top"].global_position - global_position).normalized()
 		dirs[Vector2(0, 1)] = (markers["bottom"].global_position - global_position).normalized()
-
 
 func get_platform_direction(vec2: Vector2) -> Vector2:
 	if WandS:

@@ -1,13 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://cbu8o4pnr4t0"]
+[gd_scene load_steps=8 format=3 uid="uid://cbu8o4pnr4t0"]
 
 [ext_resource type="Script" uid="uid://ofq4lf7o1yh0" path="res://Scripts/platform.gd" id="1_ygx5w"]
 [ext_resource type="Texture2D" uid="uid://ce2j87g4tfj5h" path="res://Resources/Art/Platform1.png" id="2_08hf0"]
+[ext_resource type="Script" uid="uid://cqvvm7udv5mxe" path="res://Scripts/Components/platform_sprite_comp.gd" id="3_755ef"]
+[ext_resource type="Script" uid="uid://d222pybbnwnvx" path="res://addons/shaker/shaker.gd" id="4_ngm2a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_apfcn"]
 size = Vector2(31.0938, 11.3333)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ygx5w"]
 size = Vector2(10, 8.5)
+
+[sub_resource type="Curve" id="Curve_ngm2a"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.330688, 1), 0.0, 0.0, 0, 0, Vector2(0.669312, 1), 0.0, 0.0, 0, 0, Vector2(0.997354, 0.404098), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [node name="Platform" type="StaticBody2D"]
 scale = Vector2(6, 6)
@@ -65,7 +71,19 @@ collision_mask = 4
 position = Vector2(0, 3.12924e-07)
 shape = SubResource("RectangleShape2D_apfcn")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="PlatformSpriteComp" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(-0.166667, 2.83333)
 texture = ExtResource("2_08hf0")
+script = ExtResource("3_755ef")
+
+[node name="Shaker" type="Node" parent="PlatformSpriteComp" node_paths=PackedStringArray("target_node")]
+script = ExtResource("4_ngm2a")
+target_node = NodePath("..")
+target_property = &"position"
+min_value = -2.0
+max_value = 2.0
+constant = true
+duration = 0.2
+fall_off = SubResource("Curve_ngm2a")
+metadata/_custom_type_script = "uid://d222pybbnwnvx"
