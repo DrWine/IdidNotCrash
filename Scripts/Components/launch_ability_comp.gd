@@ -82,3 +82,14 @@ func set_flying_false() -> void:
 
 	if reset_on_landing:
 		mid_air_jump_used = false
+
+func force_stop() -> void:
+	fly_velocity = Vector2.ZERO
+	parent.velocity = Vector2.ZERO
+	parent.is_flying = false
+	flight_landed_cooldown = false
+	is_aiming = false
+	mid_air_jump_used = false if reset_on_landing else mid_air_jump_used
+	parent.set_time_scale(1)
+	hide_trajectory_line()
+	coll.set_scale(Vector2(1, 1))

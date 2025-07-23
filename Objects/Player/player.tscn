@@ -118,3 +118,7 @@ script = ExtResource("3_l2ya6")
 
 [node name="GraplingHookComp" type="Node2D" parent="."]
 script = ExtResource("7_bpp7x")
+
+[node name="DashedLine" parent="GraplingHookComp" instance=ExtResource("7_jllbl")]
+
+[node name="GraplingHook" type="Line2D" parent="GraplingHookComp"]
