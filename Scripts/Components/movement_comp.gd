@@ -32,4 +32,4 @@ func _physics_process(delta):
 			var limit = collider.get_limits(parent.global_position, Vector2(axis_x, axis_y))
 			gravity_vec = collider.calc_gravity_vector()
 
-			parent.velocity = (dir * speed * limit) + (gravity_vec * gravity * limit)
+			parent.velocity = ((dir * speed * limit) + (gravity_vec * gravity * limit))*parent.time_scale
