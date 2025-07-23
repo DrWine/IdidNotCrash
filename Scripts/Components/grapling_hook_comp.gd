@@ -8,6 +8,8 @@ var grapple_point = Vector2.ZERO
 var radius = 0.0
 var angle = 0.0
 var angular_speed = 0.0
+var rope_buffer = 100.0
+var current_rope_length = 0.0
 
 const BASE_ANGULAR_SPEED = 3.0
 const MAX_LINEAR_SPEED = 600.0
@@ -17,7 +19,6 @@ const HOOK_THROW_SPEED = 2000.0
 @onready var grappling_hook: Line2D = $GraplingHook
 @onready var dashed_line: DashedLine = $DashedLine
 @onready var launch_ability_comp: Node2D = $"../LaunchAbilityComp"
-
 
 var hook_tween: Tween
 var hook_local_pos = Vector2.ZERO
@@ -90,6 +91,7 @@ func start_swinging():
 	
 	var to_player = parent.global_position - grapple_point
 	radius = to_player.length()
+	current_rope_length = radius
 	if radius == 0:
 		radius = 1
 	angle = to_player.angle()
@@ -136,6 +138,19 @@ func _physics_process(delta: float) -> void:
 			hide_hook()
 	
 	if is_swinging:
+		var current_distance = parent.global_position.distance_to(grapple_point)
+		
+		if current_distance <= current_rope_length + rope_buffer:
+			var new_radius = min(current_distance, current_rope_length + rope_buffer)
+			if new_radius > current_rope_length:
+				radius = new_radius
+				var to_player = parent.global_position - grapple_point
+				angle = to_player.angle()
+		else:
+			var to_player = parent.global_position - grapple_point
+			radius = to_player.length()
+			angle = to_player.angle()
+		
 		angle += angular_speed * delta
 		var new_pos = grapple_point + Vector2(cos(angle), sin(angle)) * radius
 		parent.global_position = new_pos
