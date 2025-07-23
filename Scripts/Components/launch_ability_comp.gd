@@ -10,10 +10,18 @@ var flight_landed_cooldown := false
 var mid_air_jump_used := false
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("Space"):
+	if (Input.is_action_just_pressed("Space") or Input.is_action_just_pressed("Ability1")):
 		if (parent.is_flying and !mid_air_jump_used) or !parent.is_flying:
 			parent.set_time_scale(0.2)
 	
+
+	if Input.is_action_just_released("Ability1"):
+		parent.set_time_scale(1)
+		if parent.is_flying and not mid_air_jump_used:
+			var dir = (get_global_mouse_position() - parent.global_position).normalized()
+			fly_velocity = dir * launch_speed
+			mid_air_jump_used = true
+
 	if Input.is_action_just_released("Space"):
 		parent.set_time_scale(1)
 		if not parent.is_flying:
@@ -22,10 +30,8 @@ func _process(delta: float) -> void:
 			var dir = (get_global_mouse_position() - parent.global_position).normalized()
 			fly_velocity = dir * launch_speed
 			mid_air_jump_used = false
-		elif not mid_air_jump_used:
-			var dir = (get_global_mouse_position() - parent.global_position).normalized()
-			fly_velocity = dir * launch_speed
-			mid_air_jump_used = true
+
+
 
 func _physics_process(delta: float) -> void:
 	if parent.is_flying and not flight_landed_cooldown:
