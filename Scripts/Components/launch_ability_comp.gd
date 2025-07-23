@@ -10,6 +10,8 @@ var flight_landed_cooldown := false
 var mid_air_jump_used := false
 var is_aiming := false
 
+@export var reset_on_landing: bool = false 
+
 func _ready() -> void:
 	# Start with invisible line
 	dashed_line.trans_color(Color(1,1,1,0), 0)
@@ -18,19 +20,17 @@ func _ready() -> void:
 	dashed_line.add_point(Vector2.ZERO)
 
 func _process(delta: float) -> void:
-	# Start aiming
+	# Start aiming only if allowed
 	if (Input.is_action_just_pressed("Space") or Input.is_action_just_pressed("Ability1")):
 		if (parent.is_flying and !mid_air_jump_used) or !parent.is_flying:
 			is_aiming = true
 			parent.set_time_scale(0.2)
-			# Show trajectory line
 			dashed_line.trans_color(Color.WHITE, 0.1)
 	
-	# Update trajectory while aiming
 	if is_aiming:
 		update_trajectory_line()
 	
-	# Release Ability1 FIRST - mid-air jump (this order matters!)
+	# Mid-air jump on Ability1 release
 	if Input.is_action_just_released("Ability1"):
 		parent.set_time_scale(1)
 		hide_trajectory_line()
@@ -40,7 +40,7 @@ func _process(delta: float) -> void:
 			fly_velocity = dir * launch_speed
 			mid_air_jump_used = true
 	
-	# Release Space SECOND - ground launch
+	# Ground launch on Space release
 	if Input.is_action_just_released("Space"):
 		parent.set_time_scale(1)
 		hide_trajectory_line()
@@ -50,7 +50,7 @@ func _process(delta: float) -> void:
 			coll.set_scale(Vector2(0.1, 0.1))
 			var dir = (get_global_mouse_position() - parent.global_position).normalized()
 			fly_velocity = dir * launch_speed
-			mid_air_jump_used = false
+			# Do NOT reset mid_air_jump_used here
 
 func update_trajectory_line():
 	var mouse_pos = get_global_mouse_position()
@@ -59,7 +59,7 @@ func update_trajectory_line():
 	
 	# Set trajectory line points
 	dashed_line.points[0] = Vector2.ZERO
-	dashed_line.points[1] = lerp(dashed_line.points[1],clamp(distance, 1, 500) * direction,1) ## LERPING MAKES IT LOOK SHIT
+	dashed_line.points[1] = clamp(distance, 1, 500) * direction
 
 func hide_trajectory_line():
 	dashed_line.trans_color(Color(1,1,1,0), 0.1)
@@ -79,4 +79,6 @@ func set_flying_false() -> void:
 	await timer.timeout
 	parent.is_flying = false
 	flight_landed_cooldown = false
-	mid_air_jump_used = false
+
+	if reset_on_landing:
+		mid_air_jump_used = false
