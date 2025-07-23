@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dr1d0dtquj85b"]
+[gd_scene load_steps=13 format=3 uid="uid://dr1d0dtquj85b"]
 
 [ext_resource type="Script" uid="uid://csuftpqlgfkc2" path="res://Scripts/Components/movement_comp.gd" id="1_156m4"]
 [ext_resource type="Script" uid="uid://b1oth56ultjj3" path="res://Scripts/player.gd" id="1_o1rty"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://b6nnf4vyy38g2" path="res://Scripts/Components/player_sprite_comp.gd" id="3_bpp7x"]
 [ext_resource type="Script" uid="uid://dsfmkffdw8i38" path="res://Scripts/Components/launch_ability_comp.gd" id="3_l2ya6"]
 [ext_resource type="Script" uid="uid://c61p8oqkb6nlh" path="res://Scripts/Components/grapling_hook_comp.gd" id="7_bpp7x"]
+[ext_resource type="PackedScene" uid="uid://k0epudlwcvmi" path="res://Objects/dashed_line.tscn" id="7_jllbl"]
 
 [sub_resource type="Animation" id="Animation_bpp7x"]
 resource_name = "Idle"
@@ -110,9 +111,10 @@ parent = NodePath("..")
 script = ExtResource("2_yw17q")
 parent = NodePath("..")
 
-[node name="LaunchAbilityComp" type="Node2D" parent="." node_paths=PackedStringArray("parent")]
+[node name="LaunchAbilityComp" type="Node2D" parent="."]
 script = ExtResource("3_l2ya6")
-parent = NodePath("..")
+
+[node name="DashedLine" parent="LaunchAbilityComp" instance=ExtResource("7_jllbl")]
 
 [node name="GraplingHookComp" type="Node2D" parent="."]
 script = ExtResource("7_bpp7x")

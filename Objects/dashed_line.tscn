@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://k0epudlwcvmi"]
+
+[ext_resource type="Script" uid="uid://cva8xh4i508p8" path="res://Scripts/dashed_line.gd" id="1_npv6w"]
+
+[node name="DashedLine" type="Line2D"]
+default_color = Color(1, 1, 1, 0)
+script = ExtResource("1_npv6w")
+dash_length = 15.0
+gap_length = 20.0

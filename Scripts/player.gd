@@ -4,7 +4,7 @@ class_name Player
 var time_scale: float = 1.0
 var speed_scale: float = 1.0
 var is_flying = false
-
+var is_grappling = false
 var movement_history = []
 
 func _init() -> void:
